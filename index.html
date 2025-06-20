@@ -451,6 +451,7 @@ function resetGame() {
     cardCont.addEventListener("click", () => {
       card.classList.toggle("flipped");
     });
+    enableTouchDrag(cardCont);
   });
 }
 
@@ -505,6 +506,63 @@ resetGame();
     document.body.removeChild(temp);
     alert('連結已複製，快分享給朋友吧！');
   }
+}
+
+// 手機端支援拖曳：用 touch 事件模擬拖曳
+function enableTouchDrag(cardCont) {
+  let touchStartX, touchStartY, dragging = false;
+  cardCont.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1) return;
+    dragging = true;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    cardCont.classList.add('dragging');
+    cardCont.querySelector('.card').classList.add('flipped');
+  });
+  cardCont.addEventListener('touchmove', function(e) {
+    if (!dragging) return;
+    const x = e.touches[0].clientX;
+    const y = e.touches[0].clientY;
+    cardCont.style.position = 'fixed';
+    cardCont.style.left = (x - 70) + 'px';
+    cardCont.style.top = (y - 90) + 'px';
+    cardCont.style.zIndex = 9999;
+    e.preventDefault();
+  }, {passive: false});
+  cardCont.addEventListener('touchend', function(e) {
+    if (!dragging) return;
+    dragging = false;
+    cardCont.classList.remove('dragging');
+    cardCont.querySelector('.card').classList.remove('flipped');
+    cardCont.style.position = '';
+    cardCont.style.left = '';
+    cardCont.style.top = '';
+    cardCont.style.zIndex = '';
+    // 判斷是否在 dropzone 上
+    const touch = e.changedTouches[0];
+    const dropzones = [soundZone, silentZone];
+    let dropped = false;
+    dropzones.forEach(zone => {
+      const rect = zone.getBoundingClientRect();
+      if (
+        touch.clientX >= rect.left && touch.clientX <= rect.right &&
+        touch.clientY >= rect.top && touch.clientY <= rect.bottom
+      ) {
+        // 模擬 drop 行為
+        const evt = new Event('drop', {bubbles: true});
+        evt.dataTransfer = {
+          getData: (key) => key === 'name' ? cardCont.dataset.name : (key === 'sound' ? cardCont.dataset.sound : '')
+        };
+        zone.dispatchEvent(evt);
+        dropped = true;
+      }
+    });
+    if (!dropped) {
+      // 沒有放到區域就彈回原位
+      cardCont.style.transition = 'all 0.2s';
+      setTimeout(() => { cardCont.style.transition = ''; }, 200);
+    }
+  });
 }
 </script>
 </body>
