@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>動物聲音求偶分類遊戲</title>
+<title>聲聲不息-夏蟬戀習曲</title>
 <style>
 
   body {
-    font-family: 'Patrick Hand', cursive, 'Noto Sans TC', sans-serif;
-    background: linear-gradient(to bottom, #d0e8d0, #f0f8f0);
-    color: #3a4a32;
+    font-family: inherit;
+    background: #fff;
+    color: #2d3a1f;
     padding: 40px;
     margin: 0;
     user-select: none;
@@ -41,26 +41,24 @@
   min-height: 400px;
 }
   .dropzone {
-  width: 160px;
-  height: 100%;            /* 撐滿父容器高度 */
-  min-height: unset;
-  background: #faf9f4;
-  border-radius: 25px;
-  box-shadow: 0 8px 15px rgba(90, 110, 60, 0.15);
-  border: 2px solid #a9c4a2;
-  padding: 25px 20px;
-  font-size: 19px;
-  color: #476034;
-  transition: background-color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 0;
+    background: #f4fbf4;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(60, 120, 60, 0.10);
+    border: 2.5px solid #7fc97f;
+    padding: 25px 20px;
+    font-size: 19px;
+    color: #2d6a2d;
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 0;
 }
 
-  .dropzone:hover {
-    background-color: #d7e9d7;
+  .dropzone:hover, .dropzone.dragover {
+    background-color: #e3fbe3 !important;
+    border-color: #3ca43c;
     cursor: pointer;
   }
 
@@ -125,17 +123,21 @@
     align-items: center;
     font-weight: 700;
     font-size: 28px;
-    color: #fff;
+    color: #2d6a2d;
   }
 
   .card-front {
-    background: #77ab59;  /* 森林綠 */
+    background: linear-gradient(135deg, #7fc97f 60%, #b2e0b2 100%);
+    color: #fff;
+    border: 2px solid #7fc97f;
   }
 
   .card-back {
-    background: #f4f9f4;
+    background: #fff;
+    color: #2d6a2d;
+    border: 2px solid #b2e0b2;
+    box-shadow: inset 0 0 20px #e0fae0;
     transform: rotateY(180deg);
-    box-shadow: inset 0 0 20px #a3d397;
   }
 
   .card-back img {
@@ -158,14 +160,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #f9fbed;
-    border: 3px solid #92af72;
+    background: #fafdff;
+    border: 3px solid #7fc97f;
     border-radius: 20px;
     padding: 30px 35px;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(80, 100, 40, 0.2);
+    box-shadow: 0 20px 40px rgba(60, 120, 60, 0.13);
     max-width: 320px;
-    color: #496129;
+    color: #2d6a2d;
     font-size: 18px;
     font-weight: 600;
     z-index: 1000;
@@ -177,19 +179,32 @@
   }
 
   .modal .btn {
-    background: #7eab50;
-    color: white;
-    padding: 10px 25px;
-    border: none;
+    background: #7fc97f;
+    color: #fff;
     border-radius: 15px;
+    box-shadow: 0 5px 12px rgba(60, 120, 60, 0.13);
     cursor: pointer;
     font-size: 16px;
-    box-shadow: 0 5px 12px rgba(50, 80, 30, 0.4);
     transition: background 0.3s ease;
   }
 
   .modal .btn:hover {
-    background: #a0c35f;
+    background: #3ca43c;
+  }
+
+  /* 說明框 */
+  .info-box {
+    max-width:700px;
+    margin:0 auto 30px auto;
+    padding:18px 24px 12px 24px;
+    background:#f4fbf4;
+    border-radius:18px;
+    border:2px solid #7fc97f;
+    font-size:20px;
+    line-height:1.7;
+    color:#2d6a2d;
+    text-align:center;
+    box-shadow:0 2px 10px rgba(60,120,60,0.07);
   }
 
   .modal-btn-row {
@@ -206,9 +221,11 @@
 </style>
 </head>
 <body>
-<h2>哪些動物主要是用聲音來求偶？</h2>
-
-<div style="max-width:700px;margin:0 auto 30px auto;padding:18px 24px 12px 24px;background:#f6fbe9;border-radius:18px;border:1.5px solid #b6d7a8;font-size:20px;line-height:1.7;color:#3a4a32;text-align:center;box-shadow:0 2px 10px rgba(120,160,80,0.07);">
+<div style="width:100%;max-width:900px;margin:0 auto 18px auto;text-align:center;">
+  <div style="font-size:2.2em;font-weight:bold;letter-spacing:0.08em;color:#3ca43c;text-shadow:1px 2px 8px #e0fae0;line-height:1.2;">聲聲不息 夏蟬戀習曲</div>
+</div>
+<div class="info-box">
+  <div style="font-weight:bold;font-size:1.1em;margin-bottom:8px;">哪些動物主要是用聲音來求偶？</div>
   請將下方的動物卡片拖曳到正確的分類區域：<br>
   <b>「主要用聲音求偶」</b>或<b>「不用聲音求偶」</b>。<br>
   共有兩個關卡，全部配對正確後可再玩一次或分享給朋友！
